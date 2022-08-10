@@ -1,0 +1,119 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: pipeline-service
+  namespace: {{ .Release.Namespace }}
+  labels:
+        {{- include "pipeline-service.labels" . | nindent 4 }}
+spec:
+  {{- if not .Values.autoscaling.enabled }}
+  replicas: {{ .Values.replicaCount }}
+  {{- end }}
+  progressDeadlineSeconds: 300
+  selector:
+    matchLabels:
+      {{- include "pipeline-service.selectorLabels" . | nindent 6 }} 
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: {{.Values.maxSurge}}
+      maxUnavailable: {{.Values.maxUnavailable}}
+  template:
+    metadata:
+      {{- with .Values.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      labels:
+        {{- include "pipeline-service.selectorLabels" . | nindent 8 }}
+    spec:
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}  
+      serviceAccountName: {{ include "pipeline-service.serviceAccountName" . }}
+      terminationGracePeriodSeconds: 30
+      securityContext:
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      containers:
+      - name: pipeline-service
+        image: {{ include "harnesscommon.names.imagename" . }}
+        imagePullPolicy: {{ .Values.image.pullPolicy }}
+        securityContext:
+          {{- toYaml .Values.securityContext | nindent 12 }}
+        ports:
+          - name: pms-grpc
+            containerPort: {{ .Values.service.grpcport }}
+            protocol: "TCP"
+          - name: pms-http
+            containerPort: {{ .Values.service.port }}
+            protocol: "TCP"
+          - name: gitsync-grpc
+            containerPort: {{ .Values.service.gitsyncgrpcport }}
+            protocol: "TCP"
+        resources:
+          {{- toYaml .Values.resources | nindent 12 }}
+        env:
+          - name: MONGODB_USERNAME
+            valueFrom:
+              secretKeyRef:
+                name: harness-secret
+                key: mongodbUsername
+          - name: MONGODB_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: harness-secret
+                key: mongodbPassword
+          - name : TIMESCALE_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: harness-secret
+                key: timescaledbPostgressPassword
+          - name: MONGO_URI
+            value: 'mongodb://$(MONGODB_USERNAME):$(MONGODB_PASSWORD)@mongodb-replicaset-chart-0.mongodb-replicaset-chart.{{ .Release.Namespace }}.svc:27017/pms-harness?authSource=admin'
+          - name : NOTIFICATION_MONGO_URI
+            value: 'mongodb://$(MONGODB_USERNAME):$(MONGODB_PASSWORD)@mongodb-replicaset-chart-0.mongodb-replicaset-chart.{{ .Release.Namespace }}.svc:27017/notifications?authSource=admin'
+          - name: TIMESCALEDB_USERNAME
+            value: postgres
+          - name: TIMESCALE_URI
+            value: 'jdbc:postgresql://timescaledb-single-chart.{{ .Release.Namespace }}:5432/harness'
+        envFrom:
+        - configMapRef:
+            name: pipeline-service
+        readinessProbe:
+          httpGet:
+            path: /api/health
+            port: {{ .Values.service.port }}
+          initialDelaySeconds: 60
+          timeoutSeconds: 5
+          periodSeconds: 5
+          failureThreshold: 8
+        livenessProbe:
+          httpGet:
+            path: /api/health
+            port: {{ .Values.service.port }}
+          initialDelaySeconds: 40
+          timeoutSeconds: 5
+          periodSeconds: 10
+          failureThreshold: 20   
+      affinity:   
+        podAntiAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+          - labelSelector:
+              matchExpressions:
+              - key: app
+                operator: In
+                values:
+                - pipeline-service
+            topologyKey: "kubernetes.io/hostname"
+      {{- with .Values.affinity }}
+      {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
