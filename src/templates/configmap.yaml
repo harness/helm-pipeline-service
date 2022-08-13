@@ -25,17 +25,17 @@ data:
   EVENTS_FRAMEWORK_SENTINEL_MASTER_NAME: 'harness-redis'
   EVENTS_FRAMEWORK_REDIS_SENTINELS: 'redis://redis-sentinel-harness-announce-0.{{ .Release.Namespace }}:26379,redis://redis-sentinel-harness-announce-1.{{ .Release.Namespace }}:26379,redis://redis-sentinel-harness-announce-2.{{ .Release.Namespace }}:26379'
   PIPELINE_SERVICE_BASE_URL: '{{ .Values.global.loadbalancerURL }}/ng/#'
-  PMS_API_BASE_URL: 'http://pipeline-service.{{ .Release.Namespace }}.svc.cluster.local:12001/api/'
+  PMS_API_BASE_URL: '{{ .Values.global.loadbalancerURL }}/pipeline/api/'
   LOG_STREAMING_SERVICE_BASEURL: '{{ .Values.global.loadbalancerURL }}/gateway/log-service/'
-  MANAGER_BASE_URL: 'http://harness-manager.{{ .Release.Namespace }}.svc.cluster.local:9090/api/'
-  NG_MANAGER_BASE_URL: 'http://ng-manager.{{ .Release.Namespace }}.svc.cluster.local:7090/api/'
-  WEBHOOK_TRIGGER_BASEURL: 'http://ng-manager.{{ .Release.Namespace }}.svc.cluster.local:7090/api/'
+  MANAGER_BASE_URL: '{{ .Values.global.loadbalancerURL }}/api/'
+  NG_MANAGER_BASE_URL: '{{ .Values.global.loadbalancerURL }}/ng/api/'
+  WEBHOOK_TRIGGER_BASEURL: '{{ .Values.global.loadbalancerURL }}/ng/api/'
   CUSTOM_TRIGGER_BASEURL: '{{ .Values.global.loadbalancerURL }}/pipeline/api/'
-  ACCESS_CONTROL_BASE_URL: http://accesscontrol-service.{{ .Release.Namespace }}.svc.cluster.local:9006/api/
-  NOTIFICATION_BASE_URL: 'http://platform-service.{{ .Release.Namespace }}.svc.cluster.local:9005/api/'
-  TEMPLATE_SERVICE_ENDPOINT: 'http://template-service.{{ .Release.Namespace }}.svc.cluster.local:15002/api/'
-  CI_MANAGER_BASE_URL: 'http://ci-manager.{{ .Release.Namespace }}.svc.cluster.local:7090/'
-  MANAGER_CLIENT_BASEURL: 'http://harness-manager.{{ .Release.Namespace }}.svc.cluster.local:9090/api/'
+  ACCESS_CONTROL_BASE_URL: '{{ .Values.global.loadbalancerURL }}/authz/api/'
+  NOTIFICATION_BASE_URL: '{{ .Values.global.loadbalancerURL }}/notifications/api/'
+  TEMPLATE_SERVICE_ENDPOINT: '{{ .Values.global.loadbalancerURL }}/template/api/'
+  CI_MANAGER_BASE_URL: '{{ .Values.global.loadbalancerURL }}/ci/'
+  MANAGER_CLIENT_BASEURL: '{{ .Values.global.loadbalancerURL }}/api/'
   AUTH_ENABLED: "true"
   USE_REDIS_FOR_INTERRUPTS: "true"
   USE_REDIS_FOR_ORCHESTRATION_EVENTS: "true"
@@ -47,7 +47,7 @@ data:
   STO_MANAGER_BASE_URL: '{{ .Values.global.loadbalancerURL }}/sto-manager/'
   STO_MANAGER_AUTHORITY: default-authority.harness.io
   STO_MANAGER_TARGET: sto-manager:9979
-  CV_MANAGER_BASE_URL: 'http://cv-nextgen.{{ .Release.Namespace }}.svc.cluster.local:6060/api/'
+  CV_MANAGER_BASE_URL: '{{ .Values.global.loadbalancerURL }}/cv/api/'
   CVNG_MANAGER_AUTHORITY: default-authority.harness.io
   CVNG_MANAGER_TARGET: cv-nextgen:9979
 
