@@ -42,13 +42,13 @@ spec:
         securityContext:
           {{- toYaml .Values.securityContext | nindent 12 }}
         ports:
-          - name: pms-grpc
+          - name: grpc-pms
             containerPort: {{ .Values.service.grpcport }}
             protocol: "TCP"
-          - name: pms-http
+          - name: http-pms
             containerPort: {{ .Values.service.port }}
             protocol: "TCP"
-          - name: gitsync-grpc
+          - name: grpc-gitsync
             containerPort: {{ .Values.service.gitsyncgrpcport }}
             protocol: "TCP"
         resources:

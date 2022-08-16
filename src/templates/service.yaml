@@ -7,15 +7,15 @@ metadata:
   namespace: {{ .Release.Namespace }}
 spec:
   ports:
-  - name: pms-grpc
+  - name: grpc-pms
     port: {{ .Values.service.grpcport }}
     protocol: TCP
     targetPort: {{ .Values.service.grpcport }}
-  - name: pms-http
+  - name: http-pms
     port: {{ .Values.service.port }}
     protocol: TCP
     targetPort: {{ .Values.service.port }}
-  - name: gitsync-grpc
+  - name: grpc-gitsync
     port: {{ .Values.service.gitsyncgrpcport }}
     protocol: TCP
     targetPort: {{ .Values.service.gitsyncgrpcport }} 
