@@ -18,7 +18,7 @@ spec:
   - name: grpc-gitsync
     port: {{ .Values.service.gitsyncgrpcport }}
     protocol: TCP
-    targetPort: {{ .Values.service.gitsyncgrpcport }} 
+    targetPort: {{ .Values.service.gitsyncgrpcport }}
   selector:
     {{- include "pipeline-service.selectorLabels" . | nindent 4 }}
   sessionAffinity: None
