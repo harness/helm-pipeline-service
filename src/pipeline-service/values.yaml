@@ -15,6 +15,19 @@ image:
   # Overrides the image tag whose default is the chart appVersion.
   tag: "76019"
 
+mongoSecrets:
+  userName:
+    name: harness-secrets
+    key: mongodbUsername
+  password:
+    name: harness-secrets
+    key: mongodbPassword
+
+timescaleSecret:
+  password:
+    name: harness-secrets
+    key: timescaledbPostgresPassword
+
 appLogLevel: INFO
 
 java:
