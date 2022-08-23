@@ -3,7 +3,24 @@ entries:
   pipeline-service:
   - apiVersion: v2
     appVersion: 0.0.1
-    created: "2022-08-18T01:38:43.083196+05:30"
+    created: "2022-08-23T11:41:45.841703+05:30"
+    dependencies:
+    - name: common
+      repository: https://charts.bitnami.com/bitnami
+      version: 2.x.x
+    - name: harness-common
+      repository: https://harness.github.io/helm-common
+      version: 1.x.x
+    description: A Helm chart for Kubernetes
+    digest: bf4a2b744c226f8a2f01c0eb04fde20e7c0e30a726f8f6c9ce40039b9511df6d
+    name: pipeline-service
+    type: application
+    urls:
+    - pipeline-service-0.2.1.tgz
+    version: 0.2.1
+  - apiVersion: v2
+    appVersion: 0.0.1
+    created: "2022-08-23T11:41:45.839695+05:30"
     dependencies:
     - name: harness-common
       repository: https://harness.github.io/helm-common/charts
@@ -15,4 +32,4 @@ entries:
     urls:
     - pipeline-service-0.1.0.tgz
     version: 0.1.0
-generated: "2022-08-18T01:38:43.081959+05:30"
+generated: "2022-08-23T11:41:45.837269+05:30"
