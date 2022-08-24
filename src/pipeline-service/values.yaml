@@ -15,6 +15,14 @@ image:
   # Overrides the image tag whose default is the chart appVersion.
   tag: "76019"
 
+waitForInitContainer:
+  image:
+    registry: docker.io
+    repository: harness/helm-init-container
+    pullPolicy: IfNotPresent
+    tag: "latest"
+    digest: ""
+
 mongoSecrets:
   userName:
     name: harness-secrets
