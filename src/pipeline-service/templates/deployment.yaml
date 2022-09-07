@@ -108,7 +108,7 @@ spec:
           timeoutSeconds: 2
           periodSeconds: 10
           failureThreshold: 5
-        livenessProbe:
+        startupProbe:
           httpGet:
             path: /api/health
             port: {{ .Values.service.port }}
