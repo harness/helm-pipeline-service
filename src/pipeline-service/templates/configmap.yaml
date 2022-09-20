@@ -26,7 +26,7 @@ data:
   EVENTS_FRAMEWORK_REDIS_SENTINELS: 'redis://redis-sentinel-harness-announce-0.{{ .Release.Namespace }}:26379,redis://redis-sentinel-harness-announce-1.{{ .Release.Namespace }}:26379,redis://redis-sentinel-harness-announce-2.{{ .Release.Namespace }}:26379'
   PIPELINE_SERVICE_BASE_URL: '{{ .Values.global.loadbalancerURL }}/ng/#'
   PMS_API_BASE_URL: '{{ .Values.global.loadbalancerURL }}/pipeline/api/'
-  LOG_STREAMING_SERVICE_BASEURL: '{{ .Values.global.loadbalancerURL }}/gateway/log-service/'
+  LOG_STREAMING_SERVICE_BASEURL: 'http://log-service.{{ .Release.Namespace }}.svc.cluster.local:8079/'
   MANAGER_BASE_URL: '{{ .Values.global.loadbalancerURL }}/api/'
   NG_MANAGER_BASE_URL: '{{ .Values.global.loadbalancerURL }}/ng/api/'
   WEBHOOK_TRIGGER_BASEURL: '{{ .Values.global.loadbalancerURL }}/ng/api/'
