@@ -3,6 +3,20 @@ entries:
   pipeline-service:
   - apiVersion: v2
     appVersion: 0.0.1
+    created: "2022-11-25T12:00:58.509378506Z"
+    dependencies:
+    - name: harness-common
+      repository: https://harness.github.io/helm-common
+      version: 1.x.x
+    description: A Helm chart for Kubernetes
+    digest: 355cf81402be1ac79cf6c9a9ad40baa8719ae62b6e4d1c2af89561a7c56b8131
+    name: pipeline-service
+    type: application
+    urls:
+    - https://github.com/harness/helm-pipeline-service/releases/download/pipeline-service-0.2.12/pipeline-service-0.2.12.tgz
+    version: 0.2.12
+  - apiVersion: v2
+    appVersion: 0.0.1
     created: "2022-09-20T15:19:58.798742732Z"
     dependencies:
     - name: harness-common
@@ -179,4 +193,4 @@ entries:
     urls:
     - https://github.com/harness/helm-pipeline-service/releases/download/pipeline-service-0.2.0/pipeline-service-0.2.0.tgz
     version: 0.2.0
-generated: "2022-09-20T15:19:58.798957534Z"
+generated: "2022-11-25T12:00:58.509547313Z"
