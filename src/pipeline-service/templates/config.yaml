@@ -1,4 +1,8 @@
 apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: pipeline-service
+  namespace: {{ .Release.Namespace }}
 data:
   CACHE_BACKEND: "REDIS"
   CACHE_CONFIG_REDIS_SENTINELS: 'redis://redis-sentinel-harness-announce-0.{{ .Release.Namespace }}:26379,redis://redis-sentinel-harness-announce-1.{{ .Release.Namespace }}:26379,redis://redis-sentinel-harness-announce-2.{{ .Release.Namespace }}:26379'
@@ -50,8 +54,8 @@ data:
   CV_MANAGER_BASE_URL: '{{ .Values.global.loadbalancerURL }}/cv/api/'
   CVNG_MANAGER_AUTHORITY: cv-nextgen:9979
   CVNG_MANAGER_TARGET: cv-nextgen:9979
+  {{- if .Values.global.opa.enabled }}
+  OPA_SERVER_BASEURL: 'http://policy-mgmt.{{ .Release.Namespace }}.svc.cluster.local:3000/'
+  OPA_SERVER_SECRET: "HVSKUYqD4e5Rxu12hFDdCJKGM64sxgEynvdDhaOHaTHhwwn0K4Ttr0uoOxSsEVYNrUU="
+  {{- end }}
 
-kind: ConfigMap
-metadata:
-  name: pipeline-service
-  namespace: {{ .Release.Namespace }}
